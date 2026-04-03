@@ -1,0 +1,595 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+@import url(https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap);
+
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====================== ШРИФТЫ ИЗ FIGMA ====================== */
+
+@font-face {
+  font-family: "Bounded-Regular";
+  src: url("fonts/Bounded-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Euclid Circular B-Regular";
+  src: url("fonts/EuclidCircularB-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Основные настройки */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Euclid Circular B-Regular", system-ui, -apple-system, sans-serif;
+}
+
+/* Заголовки используют Bounded-Regular */
+h1,
+h2,
+h3,
+.section-title,
+.main-title {
+  font-family: "Bounded-Regular", sans-serif;
+}
+
+
+/* 
+html, body {
+ margin: 0;
+ height: 100%;
+ background: rgb(72, 72, 74);
+} */
+#map {
+  /* position: absolute;
+ top: 0;
+ bottom: 0; */
+  /* position: sticky;
+ top: 0; */
+  height: 750px;
+  width: 100%;
+  z-index: 400;
+}
+
+/* *{
+  margin:0px;
+  padding:0px;
+} */
+.wrapper {
+  margin: 0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFF;
+}
+
+.general-info-wrapper {
+  max-width: 1535px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 40px 60px 100px;
+  font-family: "Bounded-Regular", system-ui, sans-serif;
+}
+
+.map-wrapper {
+  position: sticky;
+  top: 0;
+  margin: 0;
+  flex-grow: 1;
+  background-color: #676C88;
+}
+
+.slider-label {
+  width: 100%;
+  color: #cdcdcd;
+  text-align: center;
+  /*font-family: 'Open Sans';*/
+  font-weight: 600;
+  font-size: 20px;
+  padding: 0px 20px 20px 20px;
+}
+
+.map-tools {
+  padding: 30px;
+}
+
+.legend {
+  position: absolute;
+  z-index: 4000;
+  top: 50%;
+  right: 1%;
+  background-color: transparent;
+}
+
+.legend-elem {
+  display: flex;
+  gap: 5px;
+}
+
+.legend-elem .color-box {
+  width: 10px;
+  height: 10px;
+  border: solid 1px #000;
+  margin-top: 3px;
+  background-color: #ccc;
+}
+
+.elem-text {}
+
+
+.toggle_radio {
+  position: relative;
+  background: rgba(255, 255, 255, .1);
+  margin: 4px auto;
+  overflow: hidden;
+  padding: 0 !important;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 5px;
+  position: relative;
+  height: 100px;
+  width: 318px;
+
+}
+
+.toggle_radio>* {
+  float: left;
+}
+
+.toggle_radio input[type=radio] {
+  display: none;
+  /*   position: fixed; */
+}
+
+.toggle_radio label {
+  font: 90%/1.618 "Lato";
+  color: rgba(0, 0, 0, .9);
+  z-index: 0;
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 3px 3px;
+  font-family: "Lato";
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*   line-height:100px; */
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/
+  /*make it blue*/
+}
+
+.toggle_option_slider {
+  /*display: none;*/
+  /*background: red;*/
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  border-radius: 1px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+#first_toggle:checked~.toggle_option_slider {
+  background: rgba(255, 255, 255, .3);
+  left: 0px;
+}
+
+#second_toggle:checked~.toggle_option_slider {
+  background: rgba(255, 255, 255, .3);
+  left: 109px;
+}
+
+#third_toggle:checked~.toggle_option_slider {
+  background: rgba(255, 255, 255, .3);
+  left: 218px;
+}
+
+span.description {
+  top: 0px;
+  font-family: 'Open Sans';
+}
+
+p.day {
+  line-height: 50px;
+  font-size: 2em;
+}
+
+.hero {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 110px;
+}
+
+.left-panel {
+  background:
+    linear-gradient(135deg, rgba(168, 192, 247, 0.78), rgba(195, 180, 230, 0.78)),
+    url('../static/image/pic1.png');
+  background-size: cover;
+  background-position: left center;
+  /* левая часть картинки под блоком */
+  border-radius: 60px;
+  padding: 55px 50px;
+  width: 680px;
+  color: white;
+  min-height: 550px;
+  position: relative;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-left: -25px;
+  /* сдвинул логотип немного влево */
+}
+
+.location-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 40px 0 12px;
+}
+
+.location-icon {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) invert(1);
+}
+
+.location {
+  font-size: 15.5px;
+  opacity: 0.95;
+  font-style: normal;
+}
+
+.main-title {
+  font-size: 52px;
+  line-height: 62px;
+  font-weight: 700;
+  margin: 20px 0 32px;
+}
+
+.description {
+  font-size: 17px;
+  line-height: 26px;
+  opacity: 0.95;
+}
+
+.hero-image {
+  width: 680px;
+  height: 650px;
+  object-fit: cover;
+  border-radius: 40px;
+  object-position: right center;
+  /* правая часть той же картинки */
+}
+
+/* ====================== SECTION TITLE ====================== */
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 70px 0;
+  color: #1a1a1a;
+}
+
+/* ====================== SERVICES GRID ====================== */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.service-card {
+  background: #f0f2ff;
+  border-radius: 32px;
+  padding: 32px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card h3 {
+  font-size: 18.5px;
+  font-weight: 600;
+  color: #131743;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.service-card p {
+  font-size: 15.2px;
+  line-height: 22px;
+  color: #3a3f5b;
+  flex-grow: 1;
+}
+
+.barn-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.barn-icon {
+  width: 250px;
+  height: 270px;
+}
+
+.gallery-image,
+.empty-card {
+  width: 100%;
+  height: 290px;
+  border-radius: 28px;
+  object-fit: cover;
+}
+
+.empty-card {
+  background: #f0f2ff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  border-radius: 32px;
+}
+
+
+.ndvi-oval {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #565D85;
+  padding: 6px 18px 6px 20px;
+  border-radius: 60px;
+  border: 1px solid #9AA2D2;
+  cursor: pointer;
+  position: absolute;
+}
+
+.ndvi-oval input {
+  display: none;
+}
+
+.ndvi-text {
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.ndvi-track {
+  position: relative;
+  width: 52px;
+  height: 26px;
+  background-color: #1e1f29;
+  border-radius: 30px;
+  transition: background 0.2s;
+}
+
+.ndvi-dot {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #fff, #D9D9D9);
+  border-radius: 50%;
+  transition: left 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.ndvi-oval input:checked+.ndvi-text+.ndvi-track {
+  background-color: #9AA2D2;
+}
+
+.ndvi-oval input:checked+.ndvi-text+.ndvi-track .ndvi-dot {
+  left: calc(100% - 24px);
+}
+
+.MapToggle{
+  position: absolute;
+  top: 86%;
+  left: 1.6%;
+  width: 145px;
+  text-align: center;
+  height: 40px;
+  z-index: 4000;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  background: #565D85;
+  padding: 6px 18px 6px 20px;
+  border-radius: 60px;
+  border: 1px solid #9AA2D2;
+
+}
+
+
+/* Адаптив */
+@media (max-width: 1200px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .left-panel,
+  .hero-image {
+    width: 100%;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* .weather-card {
+  background: #565D85;
+  border-radius: 28px;
+  padding: 20px 24px;
+  border: 1px solid #9AA2D2;
+  max-width: 450px;
+}
+
+.date-combo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #565D85;
+  padding: 6px 18px 6px 22px;
+  border-radius: 60px;
+  border: 1px solid #9AA2D2;
+  margin-bottom: 20px;
+}
+
+.date-label {
+  color: #D9D9D9;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.date-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #9AA2D2;
+  padding: 4px 8px 4px 14px;
+  border-radius: 40px;
+  border: 1px solid #D9D9D9;
+}
+
+.date-input {
+  background: transparent;
+  border: none;
+  padding: 7px 0;
+  width: 110px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2c2f4a;
+  outline: none;
+}
+
+.date-input::placeholder {
+  color: #565D85;
+  opacity: 0.6;
+}
+
+.calendar-btn {
+  background: #565D85;
+  border: none;
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 16px;
+}
+
+.calendar-btn:hover {
+  background: #676C88;
+}
+
+.weather-info {
+  background: #D9D9D9;
+  border-radius: 20px;
+  padding: 16px 20px;
+}
+
+.weather-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #9AA2D2;
+}
+
+.weather-header span:first-child {
+  font-size: 20px;
+}
+
+.weather-header span:last-child {
+  font-weight: 600;
+  color: #565D85;
+  font-size: 14px;
+}
+
+.location-name {
+  font-size: 12px;
+  color: #9AA2D2;
+  margin-left: auto;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.weather-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0d6f0;
+}
+
+.weather-item-label {
+  color: #565D85;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.weather-item-value {
+  color: #3a2a5e;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #565D85;
+  font-size: 14px;
+}
+
+.weather-note {
+  font-size: 10px;
+  color: #9AA2D2;
+  text-align: center;
+  margin-top: 12px;
+} */
