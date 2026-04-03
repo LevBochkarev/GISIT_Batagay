@@ -1,3 +1,17 @@
+// async function getData(url) {
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) { // Check for HTTP errors like 404 or 500
+//       throw new Error(`HTTP error! Status: ${response.status}`);
+//     }
+//     const data = await response.json(); // Parse body as JSON
+//     console.log(data);
+//     return data;
+//   } catch (error) {
+//     console.error('Fetch error:', error);
+//   }
+// }
+
 
 var map = L.map('map').setView([67.655, 134.63], 15);
 var osm = L.tileLayer(`https://api.maptiler.com/maps/landscape-v4/{z}/{x}/{y}.png?key=YNbxHKHmz7g4hO5niSz9`, { //style URL
@@ -37,8 +51,13 @@ var lineStyle = {
 }
 
 var polyStyle = {
-    fillOpacity: 0,
+    fillOpacity: 0.2,
     color : '#a42216'
+}
+
+var borderStyle = {
+    fillOpacity: 0.0,
+    color : '#c47418'
 }
 
 fetch('static/vector/roads.geojson').then(res => res.json()).then(data => {
@@ -61,32 +80,13 @@ fetch('static/vector/buildings.geojson').then(res => res.json()).then(data => {
 
 fetch('static/vector/border.geojson').then(res=>res.json()).then(data=>{
     L.geoJSON(data, {
-        style: polyStyle
+        style: borderStyle,
+        pane : 'footprint'
     }).addTo(map);
 })
 
 var no_ndvi = false
 var layers = {}
-
-var radios = document.getElementsByName('toggle_option');
-for (var i = 0, max = radios.length; i < max; i++) {
-    radios[i].onclick = function () {
-        if(no_ndvi) return;
-        for (layer in layers) {
-            if (map.hasLayer(layers[layer])) {
-            //alert(['on map ',layer])
-                map.removeLayer(layers[layer]);
-            }
-            //layers[layer].setOpacity(0.0);
-            //map.removeLayer(layers[layer]);
-        }
-        //map.removeLayer(GeoRasterLayer.getActiveTiles())
-        //alert(this.value)
-        layers[this.value].addTo(map);
-        //map.fitBounds(layers[this.value].getBounds())
-        //layers[this.value].setOpacity(0.7);
-    }
-}
 
 var ndvi_button = document.getElementById('ndviToggle');
 ndvi_button.onclick = toggleNDVI;
@@ -102,6 +102,21 @@ function toggleNDVI(){
         no_ndvi = true
     }
     
+}
+
+months = {
+    1: "Январь",
+    2: "Февраль",
+    3: "Март",
+    4: "Апрель",
+    5: "Май",
+    6: "Июнь",
+    7: "Июль",
+    8: "Август",
+    9: "Сентябрь",
+    10: "Октябрь",
+    11: "Ноябрь",
+    12: "Декабрь"
 }
 
 function getNDVI(date) {
@@ -156,14 +171,69 @@ function getNDVI(date) {
                         }
                     }
                 });
-                //layers[date].addTo(map);
+                layers[date].addTo(map);
             });
         });
+    //  document.getElementById("radio_wrapper").insertAdjacentHTML("beforeend",
+    //      `
+    //      <input type="radio" class="toggle_option" name="toggle_option" value=${date}>
+    //      <label for="first_toggle">
+    //          <span class="description">${months[Number(date.slice(5,7))]}</span>
+    //          <p class="day">${date.slice(-2)} </p>
+    //          <span class="day-week">${date.slice(0,4)}</span>
+    //      </label>
+    //      `
+        
+    //  );
+     //document.getElementsByName('toggle_option')[0].checked = true;
+    // //alert(date.slice(-2)+date.slice(0,4)+months[Number(date.slice(5,7))]);
 }
 
-getNDVI('2025-05-23');
-getNDVI('2025-05-28');
-getNDVI('2025-06-19');
+// getNDVI('2024-06-07');
+// getNDVI('2024-06-09');
+// getNDVI('2024-06-22');
+ getNDVI('2025-05-23');
+ getNDVI('2025-05-28');
+ getNDVI('2025-06-19');
+// getNDVI('2025-06-22');
+// getNDVI('2025-07-09');
+
+var radios = document.getElementsByName('toggle_option');
+for (var i = 0, max = radios.length; i < max; i++) {
+    radios[i].onclick = function () {
+        if(no_ndvi) return;
+        for (layer in layers) {
+            if (map.hasLayer(layers[layer])) {
+                //alert(['on map ',layer])
+                map.removeLayer(layers[layer]);
+            }
+            //layers[layer].setOpacity(0.0);
+            //map.removeLayer(layers[layer]);
+        }
+        //map.removeLayer(GeoRasterLayer.getActiveTiles())
+        //alert(this.value)
+        layers[this.value].addTo(map);
+        //map.fitBounds(layers[this.value].getBounds())
+        //layers[this.value].setOpacity(0.7);
+    }
+}
+
+var cadastr = new L.geoJSON(null, {
+    pane: 'footprint',
+    style: polyStyle,
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(
+            'Кадастровый номер: '+ feature.properties.CAD_N + '<br>' +
+            'Кадастровая стоимость: ' + feature.properties.C_COST + '<br>'+
+            'Площадь участка: ' + feature.properties.AREA + '<br>'+
+            'Назначение: ' + feature.properties.UTL_DOC
+        );
+    }
+});
+
+fetch('static/vector/cadastr.geojson').then(res => res.json()).then(data => {
+    cadastr.addData(data);
+})
 
 var baseMaps = {
     'Landscape': osm,
@@ -173,15 +243,7 @@ var baseMaps = {
 
 var overlayMaps = {
     'Здания': osmb,
+    'Кадастровые участки' : cadastr
 };
 
-// var NDVI = {
-
-// }
-
-// var layer = L.leafletGeotiff('static/raster/batagay_ndvi.tif', {
-//     renderer: new L.LeafletGeotiff.plotty({})
-// }).addTo(map);
-
 L.control.layers(baseMaps, overlayMaps).addTo(map);
-
