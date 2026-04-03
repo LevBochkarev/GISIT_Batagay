@@ -112,6 +112,7 @@ function getNDVI(date) {
             parseGeoraster(arrayBuffer).then(georaster => {
                 layers[date] = new GeoRasterLayer({
                     georaster: georaster,
+                    pane : 'footprint',
                     opacity: 0.7,
                     resolution : 64,
                     updateWhenZooming : true,
@@ -165,9 +166,9 @@ getNDVI('2025-05-28');
 getNDVI('2025-06-19');
 
 var baseMaps = {
-    'Landscape': osm
-    // 'OSM': OSM_Mapnik,
-    // 'Спутник': Aerial
+    'Landscape': osm,
+    'OSM': OSM_Mapnik,
+    'Спутник': Aerial
 };
 
 var overlayMaps = {
@@ -183,3 +184,4 @@ var overlayMaps = {
 // }).addTo(map);
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
+
